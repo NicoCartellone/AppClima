@@ -23,11 +23,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyAVbZa3DuEYIoLNVUenVbzd1Qk-E51xhCc"
-        }
-      },
       "package": "com.necs.appClima"
     },
     "web": {
