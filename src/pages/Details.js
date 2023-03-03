@@ -23,7 +23,6 @@ const Details = ({ navigation, route }) => {
   const [view, setView] = useState(false)
   const kelvin = 273.15
   const tempActual = parseInt(temperatura - kelvin)
-  //   const [resultado, guardarResultado] = useState({})
   const [icon, setIcon] = useState('')
   const [feelslike, setfeelslike] = useState('')
   const fellsActual = parseInt(feelslike - kelvin)
@@ -41,7 +40,6 @@ const Details = ({ navigation, route }) => {
       try {
         const respuesta = await fetch(url)
         const resultado = await respuesta.json()
-        // guardarResultado(resultado)
         setLatitud(resultado.coord.lat)
         setLongitud(resultado.coord.lon)
         setTemperatura(resultado.main.temp)
@@ -72,79 +70,92 @@ const Details = ({ navigation, route }) => {
       >
         <MaterialCommunityIcons name='arrow-left' color='white' size={50} />
       </TouchableOpacity>
-      <View style={styles.contain}>
-        <Text style={styles.ciudad}>{ciudad}</Text>
-        <View style={styles.containerTemp}>
-          <Text style={styles.tempActual}> {tempActual} &#x2103;</Text>
-          <Image
-            style={{ width: 66, height: 58, top: '8%', left: '20%' }}
-            source={{ uri: `http://openweathermap.org/img/w/${icon}.png` }}
-          />
-        </View>
-        <View style={styles.FellsLike}>
-          <Text style={{ marginRight: '1%', color: 'white', fontWeight: 'bold', fontSize: 20 }}>
-            ST:
-          </Text>
-          <Text style={styles.fellsActual}>{fellsActual} &#x2103;</Text>
-        </View>
-        <View style={styles.minMax}>
-          <Text style={styles.textMinMax}>Min {parseInt(tempMin - kelvin)}&#x2103;</Text>
-          <Text style={styles.textMinMax}>Max {parseInt(tempMax - kelvin)}&#x2103;</Text>
-        </View>
-        <View style={styles.PresHum}>
-          <Text style={styles.textPresHum}>Presión: {presion} hPa</Text>
-          <Text style={styles.textPresHum}>Humedad: {humedad} %</Text>
-        </View>
-        <View>
-          <LottieView
-            style={{ width: size + 50, height: size + 50, marginTop: '5%' }}
-            autoPlay
-            loop
-            resizeMode='contain'
-            source={require('../../assets/mapaicon.json')}
-          />
-          <View style={{ bottom: 30 }}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => { setView(true) }}
-            >
-              <Text style={styles.btnText}>Abrir Mapa</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Modal
-          animationType='fade'
-          transparent
-          visible={view}
-        >
-          <View style={{ flex: 1, backgroundColor: 'rgba(1,1,1,0.5)', justifyContent: 'center', alignItems: 'center' }}>
-            <View style={{ height: '75%', width: '90%', backgroundColor: '#fff' }}>
-              <MapView
-                style={styles.map}
-                initialRegion={{
-                  latitude: latitud,
-                  longitude: longitud,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
-                }}
-              >
-                <Marker
-                  coordinate={{
-                    latitude: latitud,
-                    longitude: longitud
-                  }}
-                  title={ciudad}
-                  description={pais}
-                />
-              </MapView>
-              <TouchableOpacity style={styles.btnModal} onPress={() => { setView(false) }}>
-                <MaterialCommunityIcons name='arrow-left' color='black' size={35} />
-                <Text style={styles.btnTextoModal}>Volver</Text>
-              </TouchableOpacity>
+      {temperatura !== ''
+        ? (
+          <View style={styles.contain}>
+            <Text style={styles.ciudad}>{ciudad}</Text>
+            <View style={styles.containerTemp}>
+              <Text style={styles.tempActual}> {tempActual} &#x2103;</Text>
+              <Image
+                style={{ width: 66, height: 58, top: '8%', left: '20%' }}
+                source={{ uri: `http://openweathermap.org/img/w/${icon}.png` }}
+              />
             </View>
+            <View style={styles.FellsLike}>
+              <Text style={{ marginRight: '1%', color: 'white', fontWeight: 'bold', fontSize: 20 }}>
+                ST:
+              </Text>
+              <Text style={styles.fellsActual}>{fellsActual} &#x2103;</Text>
+            </View>
+            <View style={styles.minMax}>
+              <Text style={styles.textMinMax}>Min {parseInt(tempMin - kelvin)}&#x2103;</Text>
+              <Text style={styles.textMinMax}>Max {parseInt(tempMax - kelvin)}&#x2103;</Text>
+            </View>
+            <View style={styles.PresHum}>
+              <Text style={styles.textPresHum}>Presión: {presion} hPa</Text>
+              <Text style={styles.textPresHum}>Humedad: {humedad} %</Text>
+            </View>
+            <View>
+              <LottieView
+                style={{ width: size + 50, height: size + 50, marginTop: '5%' }}
+                autoPlay
+                loop
+                resizeMode='contain'
+                source={require('../../assets/mapaicon.json')}
+              />
+              <View style={{ bottom: 30 }}>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => { setView(true) }}
+                >
+                  <Text style={styles.btnText}>Abrir Mapa</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Modal
+              animationType='fade'
+              transparent
+              visible={view}
+            >
+              <View
+                style={{ flex: 1, backgroundColor: 'rgba(1,1,1,0.5)', justifyContent: 'center', alignItems: 'center' }}
+              >
+                <View
+                  style={{ height: '75%', width: '90%', backgroundColor: '#fff' }}
+                >
+                  <MapView
+                    style={styles.map}
+                    initialRegion={{
+                      latitude: latitud,
+                      longitude: longitud,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421
+                    }}
+                  >
+                    <Marker
+                      coordinate={{
+                        latitude: latitud,
+                        longitude: longitud
+                      }}
+                      title={ciudad}
+                      description={pais}
+                    />
+                  </MapView>
+                  <TouchableOpacity style={styles.btnModal} onPress={() => { setView(false) }}>
+                    <MaterialCommunityIcons name='arrow-left' color='black' size={35} />
+                    <Text style={styles.btnTextoModal}>Volver</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
-        </Modal>
-      </View>
+          )
+        : (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: 'white' }}>Cargando..</Text>
+          </View>
+          )}
+
     </Container>
   )
 }

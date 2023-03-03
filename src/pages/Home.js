@@ -173,11 +173,10 @@ const styles = StyleSheet.create({
   },
   buscador: {
     width: '70%',
-    height: '30%',
+    padding: 10,
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
-    borderWidth: 1,
     paddingLeft: 20
   },
   btnBuscar: {
