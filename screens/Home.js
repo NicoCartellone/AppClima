@@ -8,9 +8,7 @@ import LottieView from 'lottie-react-native'
 import Constants from 'expo-constants'
 
 
-const Home = ({ navigation, route }) => {
-    const contador = route.params
-
+const Home = ({ navigation,  }) => {
     //datosStorage contiene el array con los datos que se guardaron en el storage
     //filterDatosStorage contiene los datos de storage duplicados para filtralos en una funcion
     //search captura el input de la barra de busqueda
@@ -21,7 +19,7 @@ const Home = ({ navigation, route }) => {
 
     useEffect(() => {
         getData()
-    }, [contador])
+    }, [])
 
     //se obtiene la data del storage
     const getData = async () => {
