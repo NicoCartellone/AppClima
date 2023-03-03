@@ -18,11 +18,8 @@ const formularioScheme = Yup.object().shape({
     pais: Yup.string()
         .required('Campo obligatorio')
 });
-//Variable utilizada para actualizar el estado donde se almacenan los datos 
-var i = 1;
 
 const Form = ({ navigation }) => {
-
     // Esta funcion toma los datos del formulario y guarda en storage los datos del input, ademas contempla
     //las siguiente validacion: Existencia de la ciudad y pais, y verificaion de existencia de datos duplucados
     const handleSubmit = async (values) => {
@@ -54,7 +51,10 @@ const Form = ({ navigation }) => {
                         datosFormulario.push(values)
                         const json_value = JSON.stringify(datosFormulario)
                         await AsyncStorage.setItem('datosFormulario', json_value)
-                        navigation.navigate('MainTab', i = i + 1)
+                        navigation.reset({
+                            index: 1,
+                            routes: [{ name: 'Home' }]
+                          })
                     }
                 } else {
                     const id = shortid.generate()
@@ -62,7 +62,10 @@ const Form = ({ navigation }) => {
                     datosFormulario.push(values)
                     const json_value = JSON.stringify(datosFormulario)
                     await AsyncStorage.setItem('datosFormulario', json_value)
-                    navigation.navigate('MainTab', i = i + 1)
+                    navigation.reset({
+                        index: 1,
+                        routes: [{ name: 'Home' }]
+                      })
                 }
             } catch (error) {
                 AsyncStorage.removeItem('datosFormulario');
@@ -98,7 +101,7 @@ const Form = ({ navigation }) => {
         <TouchableWithoutFeedback onPress={() => ocultarTecaldo()}>
             <Container>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('MainTab', i = i + 1)}
+                    onPress={() => navigation.navigate('MainTab')}
                     style={styles.goBackIcon}
                 >
                     <MaterialCommunityIcons name="arrow-left" color={"white"} size={50}></MaterialCommunityIcons>
