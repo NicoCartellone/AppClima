@@ -36,7 +36,7 @@ const Details = ({ navigation, route }) => {
 
     useEffect(() => {
         const consultaApi = async () => {
-            const appId = 'fecc0c6fa885693e71d3ddb065315543';
+            const appId = 'fe45a7c6ad0948be418a88f00ba462af';
             const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`;
             try {
                 const respuesta = await fetch(url);
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 40,
         fontWeight: "bold",
-        textTransform: "Capitalize"
+        textTransform: "capitalize"
     },
     tempActual: {
         color: "white",

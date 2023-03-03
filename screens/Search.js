@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, StatusBar } from 'react-native'
+import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, StatusBar, Alert } from 'react-native'
 import Formulario from '../components/Formulario';
 import Clima from '../components/Clima';
 import Container from '../components/Container';
@@ -20,7 +20,7 @@ const Search = () => {
     useEffect(() => {
         const consultarClima = async () => {
             if (consultar) {
-                const appId = '6198f7a3843554df52545dfa0dc6ccca';
+                const appId = 'fe45a7c6ad0948be418a88f00ba462af';
                 const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`;
 
                 try {
