@@ -38,11 +38,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "standard": "^17.0.0"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
+    "@babel/core": "^7.12.9"
   },
   "private": true
 }
