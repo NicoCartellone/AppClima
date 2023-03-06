@@ -4,6 +4,7 @@ import MapView, { Marker } from 'react-native-maps'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Container from '../components/Container'
 import LottieView from 'lottie-react-native'
+import { useWeather } from '../hooks/useWeather'
 
 // Details: esta screen muestra los detalles de la ciudad elegida por el usuario
 // se muetra temperatura, sensacion termina, presion, humedad, temp minima y maxima y ademas incluye
@@ -16,44 +17,14 @@ const Details = ({ navigation, route }) => {
 
   const ciudad = route.params.ciudad
   const pais = route.params.pais
-
-  const [temperatura, setTemperatura] = useState('')
-  const [latitud, setLatitud] = useState(0)
-  const [longitud, setLongitud] = useState(0)
-  const [view, setView] = useState(false)
   const kelvin = 273.15
-  const tempActual = parseInt(temperatura - kelvin)
-  const [icon, setIcon] = useState('')
-  const [feelslike, setfeelslike] = useState('')
-  const fellsActual = parseInt(feelslike - kelvin)
-  const [tempMax, setTempMax] = useState('')
-  const [tempMin, setTempMin] = useState('')
-  const [presion, setPresion] = useState('')
-  const [humedad, setHumedad] = useState('')
 
-  // useEffect para llamar a la api
+  const [view, setView] = useState(false)
+
+  const { coord, main, weather, getWeatherData } = useWeather(pais, ciudad)
 
   useEffect(() => {
-    const consultaApi = async () => {
-      const appId = 'fe45a7c6ad0948be418a88f00ba462af'
-      const url = `http://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appId}`
-      try {
-        const respuesta = await fetch(url)
-        const resultado = await respuesta.json()
-        setLatitud(resultado.coord.lat)
-        setLongitud(resultado.coord.lon)
-        setTemperatura(resultado.main.temp)
-        setIcon(resultado.weather[0].icon)
-        setfeelslike(resultado.main.feels_like)
-        setTempMax(resultado.main.temp_max)
-        setTempMin(resultado.main.temp_min)
-        setPresion(resultado.main.pressure)
-        setHumedad(resultado.main.humidity)
-      } catch (error) {
-
-      }
-    }
-    consultaApi()
+    getWeatherData()
   }, [])
 
   return (
@@ -70,30 +41,35 @@ const Details = ({ navigation, route }) => {
       >
         <MaterialCommunityIcons name='arrow-left' color='white' size={50} />
       </TouchableOpacity>
-      {temperatura !== ''
+      {coord === undefined || main === undefined || weather === undefined
         ? (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: 'white' }}>Cargando..</Text>
+          </View>
+          )
+        : (
           <View style={styles.contain}>
             <Text style={styles.ciudad}>{ciudad}</Text>
             <View style={styles.containerTemp}>
-              <Text style={styles.tempActual}> {tempActual} &#x2103;</Text>
+              <Text style={styles.tempActual}> {parseInt(main.temp - kelvin)} &#x2103;</Text>
               <Image
                 style={{ width: 66, height: 58, top: '8%', left: '20%' }}
-                source={{ uri: `http://openweathermap.org/img/w/${icon}.png` }}
+                source={{ uri: `http://openweathermap.org/img/w/${weather[0].icon}.png` }}
               />
             </View>
             <View style={styles.FellsLike}>
               <Text style={{ marginRight: '1%', color: 'white', fontWeight: 'bold', fontSize: 20 }}>
                 ST:
               </Text>
-              <Text style={styles.fellsActual}>{fellsActual} &#x2103;</Text>
+              <Text style={styles.fellsActual}>{parseInt(main.feels_like - kelvin)} &#x2103;</Text>
             </View>
             <View style={styles.minMax}>
-              <Text style={styles.textMinMax}>Min {parseInt(tempMin - kelvin)}&#x2103;</Text>
-              <Text style={styles.textMinMax}>Max {parseInt(tempMax - kelvin)}&#x2103;</Text>
+              <Text style={styles.textMinMax}>Min {parseInt(main.temp_min - kelvin)}&#x2103;</Text>
+              <Text style={styles.textMinMax}>Max {parseInt(main.temp_max - kelvin)}&#x2103;</Text>
             </View>
             <View style={styles.PresHum}>
-              <Text style={styles.textPresHum}>Presión: {presion} hPa</Text>
-              <Text style={styles.textPresHum}>Humedad: {humedad} %</Text>
+              <Text style={styles.textPresHum}>Presión: {main.pressure} hPa</Text>
+              <Text style={styles.textPresHum}>Humedad: {main.humidity} %</Text>
             </View>
             <View>
               <LottieView
@@ -126,16 +102,16 @@ const Details = ({ navigation, route }) => {
                   <MapView
                     style={styles.map}
                     initialRegion={{
-                      latitude: latitud,
-                      longitude: longitud,
+                      latitude: coord.lat,
+                      longitude: coord.lon,
                       latitudeDelta: 0.0922,
                       longitudeDelta: 0.0421
                     }}
                   >
                     <Marker
                       coordinate={{
-                        latitude: latitud,
-                        longitude: longitud
+                        latitude: coord.lat,
+                        longitude: coord.lon
                       }}
                       title={ciudad}
                       description={pais}
@@ -148,11 +124,6 @@ const Details = ({ navigation, route }) => {
                 </View>
               </View>
             </Modal>
-          </View>
-          )
-        : (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ color: 'white' }}>Cargando..</Text>
           </View>
           )}
 
