@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View, TouchableWithoutFeedback, Text, Animated, 
 import { Picker } from '@react-native-picker/picker'
 
 // Coponente del formulario que hace la busqueda de ciudades en particular y que no se guardan en storage
-const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation }) => {
+const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar }) => {
   const { pais, ciudad } = busqueda
 
   const [animacionboton] = useState(new Animated.Value(1))
@@ -47,7 +47,6 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar, navigation })
 
   return (
     <>
-
       <View>
         <Picker
           style={styles.picker}
