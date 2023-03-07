@@ -134,7 +134,6 @@ const Home = ({ navigation }) => {
       >
         <MaterialCommunityIcons name='plus' color='#51608F' size={40} />
       </TouchableOpacity>
-
     </Container>
   )
 }
