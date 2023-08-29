@@ -119,7 +119,6 @@ const Details = ({ navigation, route }) => {
                   </MapView>
                   <TouchableOpacity style={styles.btnModal} onPress={() => { setView(false) }}>
                     <MaterialCommunityIcons name='arrow-left' color='black' size={35} />
-                    <Text style={styles.btnTextoModal}>Volver</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -159,19 +158,18 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   map: {
-    width: Dimensions.get('window').width,
+    width: '100%',
     height: '100%'
   },
   btnModal: {
     display: 'flex',
     position: 'absolute',
     zIndex: 100,
-    padding: 10
-  },
-  btnTextoModal: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: 'black'
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 50,
+    left: 10,
+    top: 10
   },
   fellsActual: {
     color: 'white',
